@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Charges Predictor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group {
+            flex: 1 1 calc(50% - 20px);
+            display: flex;
+            flex-direction: column;
+            min-width: 250px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            flex: 1 1 100%;
+            padding: 10px;
+            background: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e9ffe9;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            color: #155724;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>💊 Predict Medical Charges</h2>
+        <p style="text-align:center; color:#666;">Fill in the details below to estimate your medical insurance charges.</p>
+
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <label>Age (scaled)</label>
+                <input type="number" step="0.01" name="age" placeholder="Example: 0.45" required>
+            </div>
+
+            <div class="form-group">
+                <label>Is Female</label>
+                <input type="number" min="0" max="1" name="is_female" placeholder="1 = Yes, 0 = No" required>
+            </div>
+
+            <div class="form-group">
+                <label>BMI (scaled)</label>
+                <input type="number" step="0.01" name="bmi" placeholder="Example: -0.52" required>
+            </div>
+
+            <div class="form-group">
+                <label>Children (scaled)</label>
+                <input type="number" step="0.01" name="children" placeholder="Example: 0.25" required>
+            </div>
+
+            <div class="form-group">
+                <label>Is Smoker</label>
+                <input type="number" min="0" max="1" name="is_smoker" placeholder="1 = Yes, 0 = No" required>
+            </div>
+
+            <div class="form-group">
+                <label>Region Northwest</label>
+                <input type="number" min="0" max="1" name="region_northwest" placeholder="1 if Northwest, else 0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Region Southeast</label>
+                <input type="number" min="0" max="1" name="region_southeast" placeholder="1 if Southeast, else 0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Region Southwest</label>
+                <input type="number" min="0" max="1" name="region_southwest" placeholder="1 if Southwest, else 0" required>
+            </div>
+
+            <div class="form-group">
+                <label>BMI Category: Healthy Weight</label>
+                <input type="number" min="0" max="1" name="bmi_category_Healthy" placeholder="1 if Healthy Weight" required>
+            </div>
+
+            <div class="form-group">
+                <label>BMI Category: Overweight</label>
+                <input type="number" min="0" max="1" name="bmi_category_Overweight" placeholder="1 if Overweight" required>
+            </div>
+
+            <div class="form-group">
+                <label>BMI Category: Obesity</label>
+                <input type="number" min="0" max="1" name="bmi_category_Obesity" placeholder="1 if Obese" required>
+            </div>
+
+            <button type="submit">Predict Charges</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
