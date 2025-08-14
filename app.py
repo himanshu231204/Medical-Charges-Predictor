@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import numpy as np
 import pickle
+import os
 
 app = Flask(__name__)
 
@@ -36,10 +37,11 @@ def predict():
         # Make prediction
         prediction = model.predict(features_array)
 
-        return render_template('index.html', prediction_text=f"Predicted value: {prediction[0]}")
+        return render_template('index.html', prediction_text=f"Predicted value: {prediction[0]:.2f}")
 
     except Exception as e:
         return jsonify({"error": str(e)})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render's PORT environment variable
+    app.run(host="0.0.0.0", port=port)
